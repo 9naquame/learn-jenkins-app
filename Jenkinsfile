@@ -11,6 +11,7 @@ pipeline {
             }
             steps {
                 sh'''
+                    echo "Docker Container Started!"
                     ls -la
                     node --version
                     npm --version
