@@ -11,6 +11,7 @@ pipeline {
             }
             
             steps {
+                cleanWs()
                 sh'''
                     echo "Docker Container Started!"
                     ls -la
