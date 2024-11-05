@@ -1,8 +1,9 @@
 pipeline {
     agent any
     environment {
-        NETLIFY_SITE_ID = 'bc6d044f-eadb-4bfc-afbb-1bea5221af78'
+        NETLIFY_SITE_ID = "bc6d044f-eadb-4bfc-afbb-1bea5221af78"
         NETLIFY_AUTH_TOKEN = credentials("netlify-token")
+        CI_ENVIRONMENT_URL = "https://brilliant-kataifi-94030b.netlify.app/"
     }
 
     stages {
@@ -71,7 +72,7 @@ pipeline {
 
                     post {
                         always {
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playWright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PlayWright Local HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
                 }
@@ -94,6 +95,31 @@ pipeline {
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --prod
                 '''
+            }
+        }
+
+        stage("Prod E2E Test") {
+            agent {
+                docker {
+                    image "mcr.microsoft.com/playwright:v1.39.0-jammy"
+                    reuseNode true
+                }
+            }
+
+            environment {
+                CI_ENVIRONMENT_URL = "https://brilliant-kataifi-94030b.netlify.app"
+            }
+
+            steps {
+                sh'''
+                    npx playwright test --reporter=html
+                '''
+            }
+
+            post {
+                always {
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PlayWright Prod HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                }
             }
         }
     }
