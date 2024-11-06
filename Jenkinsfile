@@ -98,6 +98,14 @@ pipeline {
             }
         }
 
+        stage("Manual Approval") {
+            steps {
+                timeout(time: 15, unit: "MINUTES") {
+                    input message: "Do you wish to deploy to roduction?" ok: "Yes, I am sure!"
+                }
+            }
+        }
+
         stage("Deploy Prod") {
             agent {
                 docker {
