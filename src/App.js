@@ -1,5 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
+import logo from './logo.svg';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         </a>
       </header>
       <p>
-          Application version: 1
+          Application version: {process.env.APP_VERSION}
       </p>
     </div>
   );

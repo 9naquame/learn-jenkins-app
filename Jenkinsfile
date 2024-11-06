@@ -4,6 +4,7 @@ pipeline {
         NETLIFY_SITE_ID = "bc6d044f-eadb-4bfc-afbb-1bea5221af78"
         NETLIFY_AUTH_TOKEN = credentials("netlify-token")
         CI_ENVIRONMENT_URL = "https://brilliant-kataifi-94030b.netlify.app/"
+        APP_VERSION = "0.1.0"
     }
 
     stages {
@@ -106,14 +107,6 @@ pipeline {
             post {
                 always {
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PlayWright Stag HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-                }
-            }
-        }
-
-        stage("Manual Approval") {
-            steps {
-                timeout(time: 15, unit: "MINUTES") {
-                    input message: "Do you wish to deploy to roduction?", ok: "Yes, I am sure!"
                 }
             }
         }
