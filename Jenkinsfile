@@ -97,7 +97,8 @@ pipeline {
                     node_modules/.bin/netlify --version
                     echo "Deploying to Staging: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
-                    CI_ENVIRONMENT_URL=$(node_modules/.bin/netlify deploy --dir=build --json > deploy-stag.json)
+                    node_modules/.bin/netlify deploy --dir=build --json > deploy-stag.json
+                    CI_ENVIRONMENT_URL=$(node_modules/.bin/node-jq -r ".deploy_url" deploy-stag.json)
                     npx playwright test --reporter=html
                 '''
             }
