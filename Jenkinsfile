@@ -8,6 +8,12 @@ pipeline {
     }
 
     stages {
+        stage("Docker Build") {
+            steps {
+                sh "docker build -t app ."
+            }
+        }
+
         stage("Build") {
             agent {
                 docker {

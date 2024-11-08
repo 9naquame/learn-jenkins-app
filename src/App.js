@@ -16,7 +16,7 @@ function App() {
         </a>
       </header>
       <p>
-          Application version: 1.0.60
+          Application version: {process.env.APP_VERSION}
       </p>
     </div>
   );
