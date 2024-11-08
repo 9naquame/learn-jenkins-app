@@ -1,9 +1,9 @@
 pipeline {
     agent any
+
     environment {
         NETLIFY_SITE_ID = "bc6d044f-eadb-4bfc-afbb-1bea5221af78"
         NETLIFY_AUTH_TOKEN = credentials("netlify-token")
-        CI_ENVIRONMENT_URL = "https://brilliant-kataifi-94030b.netlify.app/"
         APP_VERSION = "1.0.$BUILD_ID"
     }
 
